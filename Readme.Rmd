@@ -1,0 +1,23 @@
+---
+title: "Swisstopo Stac API"
+output: github_document
+---
+
+```{r}
+# devtools::install_github("zumbov2/swissgd")
+library(swissgd)
+library(terra)
+library(dplyr)
+```
+
+```{r}
+myrast_fname <- swissgd::get_stac_assets("ch.swisstopo.pixelkarte-farbe-pk50.noscale",lon = 2678500.0,lat = 1233750.0) %>%
+  filter(`geoadmin:variant` == "komb") %>%
+  swissgd::download_stac_assets()
+
+myrast <- terra::rast(basename(myrast_fname))
+
+plot(myrast)
+
+```
+
